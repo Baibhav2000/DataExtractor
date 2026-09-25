@@ -1,0 +1,56 @@
+[project]
+name = "data-extractor-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pymupdf>=1.28.2",
+    "python-dotenv>=1.2.3",
+    "tqdm>=4.70.1",
+]
+
+# Hardware-managed via optional-dependencies (extras)
+[project.optional-dependencies]
+cpu = [
+    "torch",
+    "torchvision",
+]
+gpu = [
+    "torch",
+    "torchvision",
+]
+
+[dependency-groups]
+dev = [
+    "easyocr>=1.7.2",
+    "label-studio>=1.23.1",
+]
+
+# Ensure you can't accidentally install both CPU and GPU versions at once
+[tool.uv]
+conflicts = [
+    [{ extra = "cpu" }, { extra = "gpu" }],
+]
+
+# Map torch/torchvision cleanly to their respective indexes using native extra keys
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cuda", extra = "gpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cuda", extra = "gpu" },
+]
+
+# Define PyTorch's official separate package indices
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu124" # Change if using a different CUDA version (e.g., cu121, cu126)
+explicit = true
