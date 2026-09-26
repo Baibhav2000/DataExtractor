@@ -1,0 +1,19 @@
+<View>
+    <Image name="image" value="$image"/>
+
+    <RectangleLabels
+        name="bbox"
+        toName="image"
+        strokeWidth="1"
+    >
+        <Label value="Text" background="#000000"/>
+    </RectangleLabels>
+
+    <TextArea
+        name="transcription"
+        toName="image"
+        perRegion="true"
+        required="false"
+        editable="true"
+    />
+</View>
